@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="static/js/jquery.percentageloader-0.2.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/css/jquery.percentageloader-0.2.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/typicons.css">
+
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      
+      #topLoader {
+        width: 256px;
+        height: 256px;
+        margin-bottom: 32px;
+      }
+      
+      #container {
+        width: 940px;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+        .icons {
+            font-size: 128px;
+        }
+    </style>
+  
+  </head>
+  <body>
+    <div id="container">
+      <div class="row">
+        <div class="col-md-6" style="text-align: center;">
+            <h3>Acqua</h3>
+            <span class="icons typcn typcn-leaf" style="color: blue;"></span>
+            <div id="water"></div>
+        </div>
+        <div class="col-md-6" style="text-align: center;">
+            <h3>Umidita`</h3>
+            <span class="icons typcn typcn-th-small" style="color: saddlebrown;"></span>
+            <div id="moisture"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6" style="text-align: center;">
+            <h3>Temperatura</h3>
+            <span class="icons typcn typcn-thermometer" style="color: red;"></span>
+            <div id="temperature"></div>
+        </div>
+        <div class="col-md-6" style="text-align: center;">
+            <h3>Luce</h3>
+            <span class="icons typcn typcn-weather-sunny" style="color: yellow;"></span>
+            <div id="light"></div>
+        </div>
+      </div>
+      <!--<div id="topLoader">
+      </div>
+
+      <button id="animateButton">Animate Loader</button>
+
+       <script>
+        $(function() {
+          var $topLoader = $("#water").percentageLoader({
+            width: 256, height: 256, controllable: true, progress: 0.5, onProgressUpdate: function (val) {
+              this.setValue(Math.round(val * 100.0) + 'kj');
+            }
+          });
+
+          var topLoaderRunning = false;
+
+          /* Some browsers may load in assets asynchronously. If you are using the percentage
+           * loader as soon as you create it (i.e. within the same execution block) you may want to
+           * wrap it in the below `ready` function to ensure its correct operation
+           */
+          $topLoader.percentageLoader({onready: function () {
+            $("#animateButton").click(function () {
+              if (topLoaderRunning) {
+                return;
+              }
+              topLoaderRunning = true;
+
+              var kb = 0;
+              var totalKb = 999;
+
+              var animateFunc = function () {
+                kb += 17;
+                $topLoader.percentageLoader({progress: kb / totalKb});
+                $topLoader.percentageLoader({value: (kb.toString() + 'kb')});
+
+                if (kb < totalKb) {
+                  setTimeout(animateFunc, 25);
+                } else {
+                  topLoaderRunning = false;
+                }
+              };
+
+              setTimeout(animateFunc, 25);
+            });
+
+          }});
+        });
+      </script>-->
+    </div>
+
+  <script>
+      setInterval(function (val) {
+          $.get('/garden/get', null, function (res) {
+              if (res.hasOwnProperty('water')) {
+                  var w = $('#water');
+                  if (w.html() != res.water) {
+                      w.html(res.water);
+                  }
+              }
+              if (res.hasOwnProperty('moisture')) {
+                  var m = $('#moisture');
+                  if (m.html() != res.moisture) {
+                      m.html(res.moisture);
+                  }
+              }
+              if (res.hasOwnProperty('temperature')) {
+                  var t = $('#temperature');
+                  if (t.html() != res.temperature) {
+                      t.html(res.temperature);
+                  }
+              }
+              if (res.hasOwnProperty('light')) {
+                  var l = $('#light');
+                  if (l.html() != res.light) {
+                      l.html(res.light);
+                  }
+              }
+          });
+      }, 500);
+  </script>
+     
+  </body>
+</html>
